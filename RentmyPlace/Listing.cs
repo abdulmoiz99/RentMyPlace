@@ -38,7 +38,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
+                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "Y"); // N refers to the listing status 
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -79,8 +79,14 @@ namespace RentmyPlace
                                 _listingLastPrice = float.Parse(Console.ReadLine());
                                 Console.Write("Enter Owner's Email: ");
                                 _listingOwnerEmail = Console.ReadLine();
-                                Console.WriteLine("Availability (Y/N)");
+                                Console.Write("Availability (Y/N): ");
                                 _listingStatus = Console.ReadLine();
+                                while (!(_listingStatus == "Y" || _listingStatus == "y" || _listingStatus == "N" || _listingStatus == "n"))
+                                {
+                                    Console.WriteLine("Incorrect Input!");
+                                    Console.Write("Availability (Y/N): ");
+                                    _listingStatus = Console.ReadLine();
+                                }
                                 writer.WriteLine(ID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + _listingStatus);
                             }
                             else

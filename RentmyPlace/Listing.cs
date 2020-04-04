@@ -88,9 +88,34 @@ namespace RentmyPlace
                 }
             }
         }
-        public static void DeleteListing()
+        public static void DeleteListing(string ID)
         {
-            
+
+            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                if (line.Substring(0, line.IndexOf('\t')) == ID)
+                {
+                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
+                    {
+                        for (int j = 0; j < lines.Length; j++)
+                        {
+                            if (i == j)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                writer.WriteLine(lines[j]);
+                            }
+                        }
+                        Console.WriteLine("Your listing has been deleted successfully.");
+                    }
+                    return;
+                }
+            }
+            Console.WriteLine("Listing ID not found.");
         }
         public static int getLineNumber(int ID)
         {

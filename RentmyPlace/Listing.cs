@@ -90,7 +90,7 @@ namespace RentmyPlace
         }
         public static void DeleteListing()
         {
-
+            
         }
         public static int getLineNumber(int ID)
         {

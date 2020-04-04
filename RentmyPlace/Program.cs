@@ -11,7 +11,7 @@ namespace RentmyPlace
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("==RENT MY PLACE==");
+            Console.WriteLine("==RENT MY PLACE==");           
         }
     }
 }

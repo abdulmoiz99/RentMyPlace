@@ -38,7 +38,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // 0 reffers to status : 0 means avaiable 
+                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail);
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -52,44 +52,49 @@ namespace RentmyPlace
                 }
             }
         }
-        public static void ModifyListing(int ID)
+        public static void ModifyListing(string ID)
         {
-
-            int _lineToEdit = getLineNumber(ID) + 1; // Warning: 1-based indexing!
-            //Getting All the Lines
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
-
-            // Over writing The files
-            using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
+            for (int i = 0; i < lines.Length; i++)
             {
-                for (int currentLine = 1; currentLine <= lines.Length; ++currentLine)
+                string line = lines[i];
+                if (line.Substring(0, line.IndexOf('\t')) == ID)
                 {
-                    if (currentLine == _lineToEdit)
+                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
                     {
-                        #region ListingVariables
-                        string _listingAddress, _listingEndDate, _listingOwnerEmail, _listingStatus; float _listingLastPrice;
-                        #endregion
-                        Console.WriteLine("Modify Listing Listing");
-                        //We should change the listing ID to auto-increment
-                        Console.Write("Enter Address:");
-                        _listingAddress = Console.ReadLine();
-                        Console.Write("Enter End Date:");
-                        _listingEndDate = Console.ReadLine();
-                        Console.Write("Enter Last Price:");
-                        _listingLastPrice = float.Parse(Console.ReadLine());
-                        Console.Write("Enter Owner's Email:");
-                        _listingOwnerEmail = Console.ReadLine();
-                        Console.WriteLine("Availability (Y/N)");
-                        _listingStatus = Console.ReadLine();
-                        writer.WriteLine(ID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + _listingStatus);
+                        for (int j = 0; j < lines.Length; j++)
+                        {
+                            if (i == j)
+                            {
+                                #region ListingVariables
+                                string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
+                                #endregion
+                                Console.WriteLine("Modify Listing: ");
+                                //We should change the listing ID to auto-increment
+                                Console.Write("Enter Address: ");
+                                _listingAddress = Console.ReadLine();
+                                Console.Write("Enter End Date: ");
+                                _listingEndDate = Console.ReadLine();
+                                Console.Write("Enter Last Price: ");
+                                _listingLastPrice = float.Parse(Console.ReadLine());
+                                Console.Write("Enter Owner's Email: ");
+                                _listingOwnerEmail = Console.ReadLine();
+                                writer.WriteLine(ID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail);
+                            }
+                            else
+                            {
+                                writer.WriteLine(lines[j]);
+                            }
+                        }
+                        Console.WriteLine("Your listing has been modified successfully.");
                     }
-                    else
-                    {
-                        writer.WriteLine(lines[currentLine - 1]);
-                    }
+                    return;
                 }
             }
+            Console.WriteLine("Listing ID not found.");
+            
         }
+
         public static void DeleteListing(string ID)
         {
 
@@ -119,6 +124,7 @@ namespace RentmyPlace
             }
             Console.WriteLine("Listing ID not found.");
         }
+
         public static int getLineNumber(int ID)
         {
             int counter = 0;
@@ -138,8 +144,8 @@ namespace RentmyPlace
             file.Close();
             return counter;
         }
-
-        public static int generateID()
+        
+        public static int  generateID()
         {
             int counter = 1;
             string line;
@@ -155,3 +161,4 @@ namespace RentmyPlace
         }
     }
 }
+ 

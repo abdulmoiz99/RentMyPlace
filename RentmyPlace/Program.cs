@@ -11,7 +11,10 @@ namespace RentmyPlace
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("==RENT MY PLACE==");           
+            Console.WriteLine("==RENT MY PLACE==");
+            Console.Write("Enter the Listing ID to be modified: ");
+            string ID = Console.ReadLine();
+            Listing.ModifyListing(ID);
         }
     }
 }

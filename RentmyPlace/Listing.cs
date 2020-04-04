@@ -38,7 +38,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail);
+                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // 0 reffers to status : 0 means avaiable 
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -67,7 +67,7 @@ namespace RentmyPlace
                     if (currentLine == _lineToEdit)
                     {
                         #region ListingVariables
-                        string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
+                        string _listingAddress, _listingEndDate, _listingOwnerEmail, _listingStatus; float _listingLastPrice;
                         #endregion
                         Console.WriteLine("Modify Listing Listing");
                         //We should change the listing ID to auto-increment
@@ -79,7 +79,9 @@ namespace RentmyPlace
                         _listingLastPrice = float.Parse(Console.ReadLine());
                         Console.Write("Enter Owner's Email:");
                         _listingOwnerEmail = Console.ReadLine();
-                        writer.WriteLine(ID +"\t" +_listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail);
+                        Console.WriteLine("Availability (Y/N)");
+                        _listingStatus = Console.ReadLine();
+                        writer.WriteLine(ID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + _listingStatus);
                     }
                     else
                     {
@@ -136,8 +138,8 @@ namespace RentmyPlace
             file.Close();
             return counter;
         }
-        
-        public static int  generateID()
+
+        public static int generateID()
         {
             int counter = 1;
             string line;
@@ -153,4 +155,3 @@ namespace RentmyPlace
         }
     }
 }
- 

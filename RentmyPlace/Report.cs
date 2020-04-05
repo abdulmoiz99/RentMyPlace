@@ -88,7 +88,7 @@ namespace RentmyPlace
                     }
                 }
                 Console.WriteLine("Total No. of Rentals: " + count);
-                Console.WriteLine("Total Rental Amount: " + totalRentalAmount);
+                Console.WriteLine("Average Rental Amount: " + totalRentalAmount/count);
                 Console.WriteLine();
 
             }

@@ -11,6 +11,7 @@ namespace RentmyPlace
     {
         public static void individualCustomerRentals()
         {
+            string text = ""; 
             Console.WriteLine("Enter Customer E-Mail Address");
             string _email = Console.ReadLine();
             string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
@@ -21,14 +22,48 @@ namespace RentmyPlace
                 if (temp[3]==_email)
                 {
                     Console.WriteLine(data[index]);
+                    text += data[index] + System.Environment.NewLine;
                 }
                 index++;
             }
-
+            string choice;
+            while (true)
+            {
+                Console.WriteLine("\nDo you want to save this report? (Y/N): ");
+                choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y" || choice == "N" || choice == "n")
+                {
+                    break;
+                }
+                else Console.WriteLine("Please Enter Valid Choice");
+            }
+            if (choice == "Y" || choice == "y")
+            {
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Report.txt", true);
+                try
+                {
+                    sw.WriteLine("Individual Customer Rentals (Date: " + DateTime.Now.ToString() + "): ");
+                    sw.WriteLine();
+                    sw.Write(text);
+                    sw.WriteLine();
+                    sw.WriteLine("===========================================================================");
+                    sw.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
         }
         public static void historicalCustomerRentals()
         {
-            Console.WriteLine("All Rentals: ");
+            string text = "";
+            Console.WriteLine("Historical Customer Rentals: ");
             Console.WriteLine();
             string[] names = new string[getTotalLines()];
             int index = 0;
@@ -36,7 +71,7 @@ namespace RentmyPlace
             foreach (string log in data)
             {
                 string[] temp = log.Split('\t');
-                names[index] =temp[2];
+                names[index] = temp[2];
                 index++;
             }
             for (int i = 0; i < data.Length; i++)
@@ -53,11 +88,11 @@ namespace RentmyPlace
                         data[j] = data[j + 1];
                         data[j + 1] = temp;
                     }
-                    else if (names[j].CompareTo(names[j + 1]) == 0) 
+                    else if (names[j].CompareTo(names[j + 1]) == 0)
                     {
                         DateTime date1 = DateTime.Parse(data[j].Substring(GetNthIndex(data[j], '\t', 4) + 1, 10));
-                        DateTime date2 = DateTime.Parse(data[j+1].Substring(GetNthIndex(data[j+1], '\t', 4) + 1, 10));
-                        if (date1 > date2) 
+                        DateTime date2 = DateTime.Parse(data[j + 1].Substring(GetNthIndex(data[j + 1], '\t', 4) + 1, 10));
+                        if (date1 > date2)
                         {
                             string temp = data[j];
                             data[j] = data[j + 1];
@@ -66,21 +101,23 @@ namespace RentmyPlace
                     }
                 }
             }
-
-            foreach (string name in data) 
+            foreach (string name in data)
             {
                 Console.WriteLine(name);
+                text += name + System.Environment.NewLine;
             }
             Console.WriteLine();
+            text += System.Environment.NewLine;
             string[] uniqueNames = names.Distinct().ToArray();
-            for (int i = 0; i < uniqueNames.Length; i++) 
+            for (int i = 0; i < uniqueNames.Length; i++)
             {
                 Console.WriteLine(uniqueNames[i]);
+                text += uniqueNames[i] + System.Environment.NewLine;
                 int count = 0;
                 int totalRentalAmount = 0;
-                for (int j = 0; j < data.Length; j++) 
+                for (int j = 0; j < data.Length; j++)
                 {
-                    if (names[j] == uniqueNames[i]) 
+                    if (names[j] == uniqueNames[i])
                     {
                         count++;
                         string[] tokens = data[j].Split('\t');
@@ -88,12 +125,45 @@ namespace RentmyPlace
                     }
                 }
                 Console.WriteLine("Total No. of Rentals: " + count);
-                Console.WriteLine("Average Rental Amount: " + totalRentalAmount/count);
+                text += "Total No. of Rentals: " + count + System.Environment.NewLine;
+                Console.WriteLine("Average Rental Amount: " + totalRentalAmount / count);
+                text += "Average Rental Amount: " + totalRentalAmount / count + System.Environment.NewLine;
                 Console.WriteLine();
-
+                text += System.Environment.NewLine;
             }
-
-
+            string choice;
+            while (true)
+            {
+                Console.WriteLine("\nDo you want to save this report? (Y/N): ");
+                choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y" || choice == "N" || choice == "n")
+                {
+                    break;
+                }
+                else Console.WriteLine("Please Enter Valid Choice");
+            }
+            if (choice == "Y" || choice == "y")
+            {
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Report.txt", true);
+                try
+                {
+                    sw.WriteLine("Historical Customer Rentals (Date: " + DateTime.Now.ToString() + "): ");
+                    sw.WriteLine();
+                    sw.Write(text);
+                    sw.WriteLine();
+                    sw.WriteLine("===========================================================================");
+                    sw.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
         }
         public static int getTotalLines()
         {
@@ -127,6 +197,7 @@ namespace RentmyPlace
         }
         public static void getRevenueByMonth()
         {
+            string text = "";
             Console.WriteLine("Enter Month(In 2 digits format #00)");
             string _month = Console.ReadLine();
             float _revenue = 0;
@@ -144,9 +215,44 @@ namespace RentmyPlace
                 index++;
             }
             Console.WriteLine("TOTAL REVENUE BY MONTH: "+_revenue);
+            text += "TOTAL REVENUE BY MONTH: " + _revenue + System.Environment.NewLine;
+            string choice;
+            while (true)
+            {
+                Console.WriteLine("\nDo you want to save this report? (Y/N): ");
+                choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y" || choice == "N" || choice == "n")
+                {
+                    break;
+                }
+                else Console.WriteLine("Please Enter Valid Choice");
+            }
+            if (choice == "Y" || choice == "y")
+            {
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Report.txt", true);
+                try
+                {
+                    sw.WriteLine("Revenue By Month (Date: " + DateTime.Now.ToString() + "): ");
+                    sw.WriteLine();
+                    sw.Write(text);
+                    sw.WriteLine();
+                    sw.WriteLine("===========================================================================");
+                    sw.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
         }
         public static void getRevenueByYear()
         {
+            string text = "";
             Console.WriteLine("Enter Yeat(In 4 digits format #0000)");
             string _year = Console.ReadLine();
             float _revenue = 0;
@@ -164,6 +270,40 @@ namespace RentmyPlace
                 index++;
             }
             Console.WriteLine("TOTAL REVENUE BY YEAR: " + _revenue);
+            text += "TOTAL REVENUE BY MONTH: " + _revenue + System.Environment.NewLine;
+            string choice;
+            while (true)
+            {
+                Console.WriteLine("\nDo you want to save this report? (Y/N): ");
+                choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y" || choice == "N" || choice == "n")
+                {
+                    break;
+                }
+                else Console.WriteLine("Please Enter Valid Choice");
+            }
+            if (choice == "Y" || choice == "y")
+            {
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Report.txt", true);
+                try
+                {
+                    sw.WriteLine("Revenue By Year (Date: " + DateTime.Now.ToString() + "): ");
+                    sw.WriteLine();
+                    sw.Write(text);
+                    sw.WriteLine();
+                    sw.WriteLine("===========================================================================");
+                    sw.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
         }
     }
 }

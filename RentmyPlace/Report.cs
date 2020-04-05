@@ -16,6 +16,8 @@ namespace RentmyPlace
         }
         public static void historicalCustomerRentals()
         {
+            Console.WriteLine("All Rentals: ");
+            Console.WriteLine();
             string[] names = new string[getTotalLines()];
             int index = 0;
             string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
@@ -56,6 +58,27 @@ namespace RentmyPlace
             foreach (string name in data) 
             {
                 Console.WriteLine(name);
+            }
+            Console.WriteLine();
+            string[] uniqueNames = names.Distinct().ToArray();
+            for (int i = 0; i < uniqueNames.Length; i++) 
+            {
+                Console.WriteLine(uniqueNames[i]);
+                int count = 0;
+                int totalRentalAmount = 0;
+                for (int j = 0; j < data.Length; j++) 
+                {
+                    if (names[j] == uniqueNames[i]) 
+                    {
+                        count++;
+                        string[] tokens = data[j].Split('\t');
+                        totalRentalAmount += Int32.Parse(tokens[5]);
+                    }
+                }
+                Console.WriteLine("Total No. of Rentals: " + count);
+                Console.WriteLine("Total Rental Amount: " + totalRentalAmount);
+                Console.WriteLine();
+
             }
 
 

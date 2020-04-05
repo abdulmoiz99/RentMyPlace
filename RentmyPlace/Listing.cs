@@ -143,19 +143,33 @@ namespace RentmyPlace
         }
         public static bool checkAvaiableity(int ID)
         {
-            bool status = true;
+            bool status = false;
 
             string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
-            Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
             foreach (string log in data)
             {
                 string[] temp = log.Split('\t');
                 if (temp[0].Equals(ID.ToString()))//temp 5 reffers to the status 
                 {
-                    if (temp[5].Equals("N"))
+                    if (temp[5].Equals("Y"))
                     {
-                        status = false;
+                        status = true;
                     }
+                }
+            }
+            return status;
+        }
+        public static bool checkID(int ID)
+        {
+            bool status = false;
+
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                if (temp[0].Equals(ID.ToString()))//temp 5 reffers to the status 
+                {
+                        status = true;
                 }
             }
             return status;

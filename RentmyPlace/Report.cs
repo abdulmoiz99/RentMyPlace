@@ -11,7 +11,19 @@ namespace RentmyPlace
     {
         public static void individualCustomerRentals()
         {
-
+            Console.WriteLine("Enter Customer E-Mail Address");
+            string _email = Console.ReadLine();
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+            int index = 0;
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                if (temp[3]==_email)
+                {
+                    Console.WriteLine(data[index]);
+                }
+                index++;
+            }
 
         }
         public static void historicalCustomerRentals()
@@ -74,7 +86,6 @@ namespace RentmyPlace
             file.Close();
             return counter;
         }
-
         public static int GetNthIndex(string s, char t, int n)
         {
             int count = 0;
@@ -90,6 +101,46 @@ namespace RentmyPlace
                 }
             }
             return -1;
+        }
+        public static void getRevenueByMonth()
+        {
+            Console.WriteLine("Enter Month(In 2 digits format #00)");
+            string _month = Console.ReadLine();
+            float _revenue = 0;
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+            int index = 0;
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                string[] date= temp[4].Split('-');
+                if (date[1] == _month)
+                {
+                  
+                    _revenue += float.Parse(temp[5]);
+                }
+                index++;
+            }
+            Console.WriteLine("TOTAL REVENUE BY MONTH: "+_revenue);
+        }
+        public static void getRevenueByYear()
+        {
+            Console.WriteLine("Enter Yeat(In 4 digits format #0000)");
+            string _year = Console.ReadLine();
+            float _revenue = 0;
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+            int index = 0;
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                string[] date = temp[4].Split('-');
+                if (date[2] == _year)
+                {
+
+                    _revenue += float.Parse(temp[5]);
+                }
+                index++;
+            }
+            Console.WriteLine("TOTAL REVENUE BY YEAR: " + _revenue);
         }
     }
 }

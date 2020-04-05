@@ -141,6 +141,25 @@ namespace RentmyPlace
                     }
                 }
         }
+        public static bool checkAvaiableity(int ID)
+        {
+            bool status = true;
+
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+            Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                if (temp[0].Equals(ID.ToString()))//temp 5 reffers to the status 
+                {
+                    if (temp[5].Equals("N"))
+                    {
+                        status = false;
+                    }
+                }
+            }
+            return status;
+        }
         public static int getLineNumber(int ID)
         {
             int counter = 0;

@@ -18,7 +18,8 @@ namespace RentmyPlace
             else
             {
                 #region ListingVariables
-                int _listingID=generateID(); string _renterName, _renterEmail, _OwnerEmail; float _rentalAmount;
+                int _trasctionID = generateID();
+                int _listingID; string _renterName, _renterEmail, _OwnerEmail; float _rentalAmount;
                 DateTime _rentalDate = DateTime.Now;
                 #endregion
                 Console.WriteLine("Perform Trasnactiion");
@@ -54,7 +55,7 @@ namespace RentmyPlace
                     StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
                     try
                     {
-                        sw.Write(_listingID + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
+                        sw.Write(_trasctionID + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
                         sw.WriteLine();
                         Listing.UpdateStatus(_listingID, "N");
                     }
@@ -113,7 +114,6 @@ namespace RentmyPlace
                 }
             }
             Console.WriteLine("Listing ID not found.");
-
         }
         public static bool checkID(int ID)
         {

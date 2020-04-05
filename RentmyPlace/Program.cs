@@ -12,8 +12,7 @@ namespace RentmyPlace
         static void Main(string[] args)
         {
             Console.WriteLine("=======RENT MY PLACE=======");
-            Report.historicalCustomerRentals();
-
+            Report.getRevenueByYear();
             //while (true)
             //{
             //    Console.WriteLine("\n\n=======MAIN MENU=======");

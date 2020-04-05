@@ -12,9 +12,9 @@ namespace RentmyPlace
         static void Main(string[] args)
         {
             Console.WriteLine("==RENT MY PLACE==");
-            Transactions.AddTrasnaction();
-
-
+            //   Transactions.AddTrasnaction();
+            //  Transactions.CheckOut("1");
+            Console.WriteLine(Listing.generateID());
 
 
             Console.ReadLine();

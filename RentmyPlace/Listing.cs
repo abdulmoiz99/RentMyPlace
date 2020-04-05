@@ -25,8 +25,6 @@ namespace RentmyPlace
                 #endregion
                 Console.WriteLine("Add Listing");
                 //We should change the listing ID to auto-increment
-                Console.Write("Enter ID:");
-                _listingID = int.Parse(Console.ReadLine());
                 Console.Write("Enter Address:");
                 _listingAddress = Console.ReadLine();
                 Console.Write("Enter End Date:");
@@ -38,7 +36,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
+                    sw.Write(generateID() + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -165,16 +163,20 @@ namespace RentmyPlace
 
         public static int generateID()
         {
-            int counter = 1;
-            string line;
 
-            // Read the file and display it line by line.
-            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
-            while ((line = file.ReadLine()) != null)
+            int counter = 1;
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+            //First we get the highest no in the ID section "temp[0]"
+            foreach (string log in data)
             {
-                counter++;
+                string[] temp = log.Split('\t');
+                if (int.Parse(temp[0])>counter)
+                {
+                    counter = int.Parse(temp[0]);
+                }
             }
-            file.Close();
+            //Then add 1 to the highest value to generate a new ID 
+            counter++;
             return counter;
         }
     }

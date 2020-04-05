@@ -19,9 +19,9 @@ namespace RentmyPlace
             {
                 #region ListingVariables
                 int _listingID; string _renterName, _renterEmail, _OwnerEmail; float _rentalAmount;
-                DateTime _rentalDate = DateTime.Now, _checkoutDate;
+                DateTime _rentalDate = DateTime.Now;
                 #endregion
-                Console.WriteLine("Add Listing");
+                Console.WriteLine("Perform Trasnactiion");
                 //We should change the listing ID to auto-increment
                 Console.Write("Enter Listing ID:");
                 _listingID = int.Parse(Console.ReadLine());
@@ -36,7 +36,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail +"\t" +"dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
+                    sw.Write(generateID() + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -50,5 +50,57 @@ namespace RentmyPlace
                 }
             }
         }
+        public static void CheckOut(string ID)
+        {
+            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                if (line.Substring(0, line.IndexOf('\t')) == ID)
+                {
+                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt"))
+                    {
+                        for (int j = 0; j < lines.Length; j++)
+                        {
+                            if (i == j)
+                            {
+                                DateTime _checkoutDate = DateTime.Now;
+                                string[] temp = line.Split('\t');
+                                writer.WriteLine(temp[0] + "\t" + temp[1] + "\t" + temp[1] + "\t" + temp[2] + "\t" + temp[3] + "\t" + temp[4] + "\t" + temp[5] + "\t" + temp[6] +"\t"+ _checkoutDate.Date.ToString("dd/MM/yyyy"));
+                            }
+                            else
+                            {
+                                writer.WriteLine(lines[j]);
+                            }
+                        }
+                        Console.WriteLine("Your listing has been modified successfully.");
+                    }
+                    return;
+                }
+            }
+            Console.WriteLine("Listing ID not found.");
+
+        }
+        
+        public static int generateID()
+        {
+
+            int counter = 1;
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+            //First we get the highest no in the ID section "temp[0]"
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                if (int.Parse(temp[0]) > counter)
+                {
+                    counter = int.Parse(temp[0]);
+                }
+            }
+            //Then add 1 to the highest value to generate a new ID 
+            counter++;
+            return counter;
+        }
+
     }
 }
+

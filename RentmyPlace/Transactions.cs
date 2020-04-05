@@ -52,7 +52,7 @@ namespace RentmyPlace
                     Console.Write("Enter Owner's Email:");
                     _OwnerEmail = Console.ReadLine();
 
-                    StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+                    StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt", true);
                     try
                     {
                         sw.Write(_trasctionID + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date

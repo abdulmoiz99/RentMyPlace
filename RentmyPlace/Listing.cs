@@ -41,11 +41,12 @@ namespace RentmyPlace
                 }
                 Console.Write("Enter Owner's Email:");
                 _listingOwnerEmail = Console.ReadLine();
-                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt", true) ;
                 try
                 {
                     sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
                     sw.WriteLine();
+                    
                     Console.WriteLine("Listing Added Successfully\n");
                 }
                 catch (Exception ex)

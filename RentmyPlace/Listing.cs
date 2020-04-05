@@ -23,7 +23,7 @@ namespace RentmyPlace
                 #region ListingVariables
                 int _listingID = generateID(); ; string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
                 #endregion
-                Console.WriteLine("Add Listing");
+                Console.WriteLine("\nAdd Listing");
                 //We should change the listing ID to auto-increment
                 Console.Write("Enter Address:");
                 _listingAddress = Console.ReadLine();
@@ -46,6 +46,7 @@ namespace RentmyPlace
                 {
                     sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
                     sw.WriteLine();
+                    Console.WriteLine("Listing Added Successfully\n");
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +62,7 @@ namespace RentmyPlace
         public static void ModifyListing()
         {
             int _listingID;
-            Console.WriteLine("Modify Listing");
+            Console.WriteLine("\nModify Listing");
             while (true)
             {
                 Console.WriteLine("Enter Listing ID");
@@ -123,7 +124,7 @@ namespace RentmyPlace
                                 writer.WriteLine(lines[j]);
                             }
                         }
-                        Console.WriteLine("Your listing has been modified successfully.");
+                        Console.WriteLine("Your listing has been modified successfully\n.");
                     }
                     return;
                 }
@@ -135,7 +136,7 @@ namespace RentmyPlace
         public static void DeleteListing()
         {
             int _listingID;
-            Console.WriteLine("Delete Listing");
+            Console.WriteLine("\nDelete Listing");
             while (true)
             {
                 Console.WriteLine("Enter Listing ID");
@@ -167,7 +168,7 @@ namespace RentmyPlace
                                     writer.WriteLine(lines[j]);
                                 }
                             }
-                            Console.WriteLine("Your listing has been deleted successfully.");
+                            Console.WriteLine("\nYour listing has been deleted successfully.");
                         }
                         return;
                     }
@@ -183,7 +184,7 @@ namespace RentmyPlace
         {
 
             string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
-            Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
+            Console.WriteLine("\nId\tAddress\tEndDate\tPrice\tOwner_Email");
             foreach (string log in data)
             {
                 string[] temp = log.Split('\t');

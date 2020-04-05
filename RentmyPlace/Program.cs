@@ -12,17 +12,20 @@ namespace RentmyPlace
         static void Main(string[] args)
         {
             Console.WriteLine("=======RENT MY PLACE=======");
+
             while (true)
             {
+                Console.WriteLine("\n\n=======MAIN MENU=======");
+
                 Console.WriteLine("1.Listing");
                 Console.WriteLine("2.Trasnaction");
                 Console.WriteLine("0.Quit");
-                int choice1 = int.Parse(Console.ReadLine());
-                if (choice1 == 0)
+                int mainChoice = int.Parse(Console.ReadLine());
+                if (mainChoice == 0)
                 {
                     break;
                 }
-                else if (choice1 == 1)
+                else if (mainChoice == 1)
                 {
                     while (true)
                     {
@@ -43,7 +46,7 @@ namespace RentmyPlace
 
                     }
                 }
-                else if (choice1 == 2)
+                else if (mainChoice == 2)
                 {
                     while(true)
                     {

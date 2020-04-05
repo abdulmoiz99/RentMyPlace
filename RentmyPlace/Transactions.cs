@@ -22,41 +22,74 @@ namespace RentmyPlace
                 DateTime _rentalDate = DateTime.Now;
                 #endregion
                 Console.WriteLine("Perform Trasnactiion");
-                //We should change the listing ID to auto-increment
-                Console.Write("Enter Listing ID:");
-                _listingID = int.Parse(Console.ReadLine());
-                Console.Write("Enter Renter Name:");
-                _renterName = Console.ReadLine();
-                Console.Write("Enter Renter Email:");
-                _renterEmail = Console.ReadLine();
-                Console.Write("Enter Rental Amount:");
-                _rentalAmount = float.Parse(Console.ReadLine());
-                Console.Write("Enter Owner's Email:");
-                _OwnerEmail = Console.ReadLine();
-                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
-                try
+                while (true)
                 {
-                    sw.Write(generateID() + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
-                    sw.WriteLine();
+                    Console.Write("Enter Listing ID:");
+                    _listingID = int.Parse(Console.ReadLine());
+                    if (Listing.checkID(_listingID) == true)
+                    {
+                        break;
+                    }
+                    else Console.WriteLine("No Record Found! Please Enter Valid Listing Id");
                 }
-                catch (Exception ex)
+                if (Listing.checkAvaiableity(_listingID) == false)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.Write("Enter Renter Name:");
+                    _renterName = Console.ReadLine();
+                    Console.Write("Enter Renter Email:");
+                    _renterEmail = Console.ReadLine();
+                    while (true)
+                    {
+                        Console.Write("Enter Rental Amount:");
+                        if (float.TryParse(Console.ReadLine(), out _rentalAmount))
+                        {
+                            break;
+                        }
+                        else Console.WriteLine("Please Enter Valid Amount");
+
+                    }
+                    Console.Write("Enter Owner's Email:");
+                    _OwnerEmail = Console.ReadLine();
+
+                    StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
+                    try
+                    {
+                        sw.Write(generateID() + "\t" + _listingID + "\t" + _renterName + "\t" + _renterEmail + "\t" + _rentalDate.ToString("dd/MM/yyyy") + "\t" + _rentalAmount + "\t" + _OwnerEmail + "\t" + "dd/MM/yyyy"); // dd/MM/yyyy reffers to checkout date
+                        sw.WriteLine();
+                        Listing.UpdateStatus(_listingID, "N");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        sw.Flush();
+                        sw.Close();
+                    }
                 }
-                finally
-                {
-                    sw.Flush();
-                    sw.Close();
-                }
+                else Console.WriteLine("Listing Is Already Rented");
             }
         }
-        public static void CheckOut(string ID)
+        public static void CheckOut()
         {
+            Console.WriteLine("Check-Out");
+            int _listingID;
+            while (true)
+            {
+                Console.Write("Enter Listing ID:");
+                _listingID = int.Parse(Console.ReadLine());
+                if (Listing.checkID(_listingID) == true)
+                {
+                    break;
+                }
+                else Console.WriteLine("No Record Found! Please Enter Valid Listing Id");
+            }
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-                if (line.Substring(0, line.IndexOf('\t')) == ID)
+                if (line.Substring(0, line.IndexOf('\t')) == _listingID.ToString())
                 {
                     using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt"))
                     {
@@ -66,7 +99,8 @@ namespace RentmyPlace
                             {
                                 DateTime _checkoutDate = DateTime.Now;
                                 string[] temp = line.Split('\t');
-                                writer.WriteLine(temp[0] + "\t" + temp[1] + "\t" + temp[1] + "\t" + temp[2] + "\t" + temp[3] + "\t" + temp[4] + "\t" + temp[5] + "\t" + temp[6] +"\t"+ _checkoutDate.Date.ToString("dd/MM/yyyy"));
+                                writer.WriteLine(temp[0] + "\t" + temp[1] + "\t" + temp[2] + "\t" + temp[3] + "\t" + temp[4] + "\t" + temp[5] + "\t" + temp[6] + "\t" + _checkoutDate.Date.ToString("dd/MM/yyyy"));
+                                Listing.UpdateStatus(_listingID, "Y");
                             }
                             else
                             {

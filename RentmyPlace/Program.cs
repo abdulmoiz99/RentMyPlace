@@ -14,7 +14,7 @@ namespace RentmyPlace
             Console.WriteLine("==RENT MY PLACE==");
             //   Transactions.AddTrasnaction();
             //  Transactions.CheckOut("1");
-            Console.WriteLine(Listing.checkID(101));
+            Listing.AddListing();
 
 
             Console.ReadLine();

@@ -21,7 +21,7 @@ namespace RentmyPlace
             else
             {
                 #region ListingVariables
-                int _listingID; string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
+                int _listingID = generateID(); ; string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
                 #endregion
                 Console.WriteLine("Add Listing");
                 //We should change the listing ID to auto-increment
@@ -29,14 +29,22 @@ namespace RentmyPlace
                 _listingAddress = Console.ReadLine();
                 Console.Write("Enter End Date:");
                 _listingEndDate = Console.ReadLine();
-                Console.Write("Enter Last Price:");
-                _listingLastPrice = float.Parse(Console.ReadLine());
+                while (true)
+                {
+                    Console.Write("Enter Last Price: ");
+                    if (float.TryParse(Console.ReadLine(), out _listingLastPrice))
+                    {
+                        break;
+                    }
+                    else Console.WriteLine("Please Enter Valid Price");
+
+                }
                 Console.Write("Enter Owner's Email:");
                 _listingOwnerEmail = Console.ReadLine();
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
                 try
                 {
-                    sw.Write(generateID() + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
+                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
                     sw.WriteLine();
                 }
                 catch (Exception ex)
@@ -50,13 +58,25 @@ namespace RentmyPlace
                 }
             }
         }
-        public static void ModifyListing(string ID)
+        public static void ModifyListing()
         {
+            int _listingID;
+            Console.WriteLine("Modify Listing");
+            while (true)
+            {
+                Console.WriteLine("Enter Listing ID");
+                 _listingID = int.Parse(Console.ReadLine());
+                if (checkID(_listingID) ==true)
+                {
+                    break;
+                }
+                else Console.WriteLine("No Record Found! Please Enter Valid ID");
+            }
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-                if (line.Substring(0, line.IndexOf('\t')) == ID)
+                if (line.Substring(0, line.IndexOf('\t')) == _listingID.ToString())
                 {
                     using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
                     {
@@ -67,19 +87,36 @@ namespace RentmyPlace
                                 #region ListingVariables
                                 string _listingAddress, _listingEndDate, _listingOwnerEmail, _listingStatus; float _listingLastPrice;
                                 #endregion
-                                Console.WriteLine("Modify Listing: ");
                                 //We should change the listing ID to auto-increment
                                 Console.Write("Enter Address: ");
                                 _listingAddress = Console.ReadLine();
                                 Console.Write("Enter End Date: ");
                                 _listingEndDate = Console.ReadLine();
-                                Console.Write("Enter Last Price: ");
-                                _listingLastPrice = float.Parse(Console.ReadLine());
+                                while (true)
+                                {
+                                    Console.Write("Enter Last Price: ");
+                                    if (float.TryParse(Console.ReadLine(), out _listingLastPrice))
+                                    {
+                                        break;
+                                    }
+                                    else Console.WriteLine("Please Enter Valid Price");
+
+                                }
                                 Console.Write("Enter Owner's Email: ");
                                 _listingOwnerEmail = Console.ReadLine();
-                                Console.WriteLine("Availability (Y/N)");
-                                _listingStatus = Console.ReadLine();
-                                writer.WriteLine(ID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + _listingStatus);
+                                while (true)
+                                {
+                                    Console.WriteLine("Availability (Y/N)");
+                                    _listingStatus = Console.ReadLine();
+                                    if (_listingStatus == "Y" || _listingStatus == "N")
+                                    {
+                                        break;
+                                    }
+                                    else Console.WriteLine("Please Enter Valid Status");
+
+                                }
+
+                                writer.WriteLine(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + _listingStatus);
                             }
                             else
                             {
@@ -95,14 +132,75 @@ namespace RentmyPlace
 
         }
 
-        public static void DeleteListing(string ID)
+        public static void DeleteListing()
+        {
+            int _listingID;
+            Console.WriteLine("Delete Listing");
+            while (true)
+            {
+                Console.WriteLine("Enter Listing ID");
+                _listingID = int.Parse(Console.ReadLine());
+                if (checkID(_listingID) == true)
+                {
+                    break;
+                }
+                else Console.WriteLine("No Record Found! Please Enter Valid ID");
+            }
+            if (checkAvaiableity(_listingID) == false)
+            {
+                string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    if (line.Substring(0, line.IndexOf('\t')) == _listingID.ToString())
+                    {
+                        using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
+                        {
+                            for (int j = 0; j < lines.Length; j++)
+                            {
+                                if (i == j)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    writer.WriteLine(lines[j]);
+                                }
+                            }
+                            Console.WriteLine("Your listing has been deleted successfully.");
+                        }
+                        return;
+                    }
+                }
+            }
+            else Console.WriteLine("Cannot Delete the current listing is on Rent");
+        }
+       
+        /// <summary>
+        /// Only display thoes lising where status is Y(Yes)
+        /// </summary>
+        public static void DisplayAvailableListing()
         {
 
+            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+            Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
+            foreach (string log in data)
+            {
+                string[] temp = log.Split('\t');
+                if (temp[5].Equals("Y"))//temp 5 reffers to the status 
+                {
+                    Console.WriteLine(temp[0] + "\t" + temp[1] + "\t" + temp[2] + "\t" + temp[3] + "\t" + temp[4] + "\t");
+                }
+            }
+
+        }
+        public static void UpdateStatus(int ID,string status)
+        {
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-                if (line.Substring(0, line.IndexOf('\t')) == ID)
+                if (line.Substring(0, line.IndexOf('\t')) == ID.ToString())
                 {
                     using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
                     {
@@ -110,36 +208,21 @@ namespace RentmyPlace
                         {
                             if (i == j)
                             {
-                                continue;
+                                DateTime _checkoutDate = DateTime.Now;
+                                string[] temp = line.Split('\t');
+                                writer.WriteLine(ID + "\t" + temp[1] + "\t" + temp[2] + "\t" + temp[2] + "\t" + temp[3] + "\t" + temp[4] + "\t" + status);
                             }
                             else
                             {
                                 writer.WriteLine(lines[j]);
                             }
                         }
-                        Console.WriteLine("Your listing has been deleted successfully.");
+                        Console.WriteLine("Your listing has been modified successfully.");
                     }
                     return;
                 }
             }
-            Console.WriteLine("Listing ID not found.");
-        }
-        /// <summary>
-        /// Only display thoes lising where status is Y(Yes)
-        /// </summary>
-        public static void DisplayAvailableListing()
-        {
-           
-                string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
-                Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
-                foreach (string log in data)
-                {
-                    string[] temp = log.Split('\t');
-                    if (temp[5].Equals("Y"))//temp 5 reffers to the status 
-                    {
-                         Console.WriteLine(temp[0]+"\t"+ temp[1] + "\t"+ temp[2] + "\t"+ temp[3] + "\t"+ temp[4] + "\t");
-                    }
-                }
+
         }
         public static bool checkAvaiableity(int ID)
         {
@@ -169,7 +252,7 @@ namespace RentmyPlace
                 string[] temp = log.Split('\t');
                 if (temp[0].Equals(ID.ToString()))//temp 5 reffers to the status 
                 {
-                        status = true;
+                    status = true;
                 }
             }
             return status;
@@ -203,7 +286,7 @@ namespace RentmyPlace
             foreach (string log in data)
             {
                 string[] temp = log.Split('\t');
-                if (int.Parse(temp[0])>counter)
+                if (int.Parse(temp[0]) > counter)
                 {
                     counter = int.Parse(temp[0]);
                 }

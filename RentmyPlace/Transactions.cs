@@ -107,7 +107,7 @@ namespace RentmyPlace
                                 writer.WriteLine(lines[j]);
                             }
                         }
-                        Console.WriteLine("Your listing has been modified successfully.");
+                        Console.WriteLine("Renting Successful.");
                     }
                     return;
                 }

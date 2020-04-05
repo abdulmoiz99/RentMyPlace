@@ -13,7 +13,7 @@ namespace RentmyPlace
         {
             Console.WriteLine("=======RENT MY PLACE=======");
             Report.historicalCustomerRentals();
-           
+
             //while (true)
             //{
             //    Console.WriteLine("\n\n=======MAIN MENU=======");
@@ -49,7 +49,7 @@ namespace RentmyPlace
             //    }
             //    else if (mainChoice == 2)
             //    {
-            //        while(true)
+            //        while (true)
             //        {
             //            Console.WriteLine("1.View Avaiable Condo’s");
             //            Console.WriteLine("2.Rent A Condo");

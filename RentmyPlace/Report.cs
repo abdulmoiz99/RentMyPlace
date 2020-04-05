@@ -25,17 +25,37 @@ namespace RentmyPlace
                 names[index] =temp[2];
                 index++;
             }
-            Array.Sort(names);
-            names = names.Distinct().ToArray();
-            for (int i = 0; i < names.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                for (int j = 0; j < data.Length; j++)
+                for (int j = 0; j < data.Length - 1; j++)
                 {
-                    if (data[j].Contains(names[i]))
+                    if (names[j].CompareTo(names[j + 1]) > 0)
                     {
-                        Console.WriteLine(data[j]);
+                        string temp = names[j];
+                        names[j] = names[j + 1];
+                        names[j + 1] = temp;
+
+                        temp = data[j];
+                        data[j] = data[j + 1];
+                        data[j + 1] = temp;
+                    }
+                    else if (names[j].CompareTo(names[j + 1]) == 0) 
+                    {
+                        DateTime date1 = DateTime.Parse(data[j].Substring(GetNthIndex(data[j], '\t', 4) + 1, 10));
+                        DateTime date2 = DateTime.Parse(data[j+1].Substring(GetNthIndex(data[j+1], '\t', 4) + 1, 10));
+                        if (date1 > date2) 
+                        {
+                            string temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                        }
                     }
                 }
+            }
+
+            foreach (string name in data) 
+            {
+                Console.WriteLine(name);
             }
 
 
@@ -53,6 +73,23 @@ namespace RentmyPlace
             }
             file.Close();
             return counter;
+        }
+
+        public static int GetNthIndex(string s, char t, int n)
+        {
+            int count = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == t)
+                {
+                    count++;
+                    if (count == n)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
         }
     }
 }

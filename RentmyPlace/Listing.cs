@@ -14,7 +14,7 @@ namespace RentmyPlace
     {
         public static void AddListing()
         {
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
             {
                 Console.WriteLine("Listing File Not Found");
             }
@@ -35,7 +35,7 @@ namespace RentmyPlace
                 _listingLastPrice = float.Parse(Console.ReadLine());
                 Console.Write("Enter Owner's Email:");
                 _listingOwnerEmail = Console.ReadLine();
-                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
                 try
                 {
                     sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
@@ -54,13 +54,13 @@ namespace RentmyPlace
         }
         public static void ModifyListing(string ID)
         {
-            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
                 if (line.Substring(0, line.IndexOf('\t')) == ID)
                 {
-                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
+                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
                     {
                         for (int j = 0; j < lines.Length; j++)
                         {
@@ -100,13 +100,13 @@ namespace RentmyPlace
         public static void DeleteListing(string ID)
         {
 
-            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+            string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
                 if (line.Substring(0, line.IndexOf('\t')) == ID)
                 {
-                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt"))
+                    using (StreamWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
                     {
                         for (int j = 0; j < lines.Length; j++)
                         {
@@ -126,14 +126,30 @@ namespace RentmyPlace
             }
             Console.WriteLine("Listing ID not found.");
         }
-
+        /// <summary>
+        /// Only display thoes lising where status is Y(Yes)
+        /// </summary>
+        public static void DisplayAvailableListing()
+        {
+           
+                string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
+                Console.WriteLine("Id\tAddress\tEndDate\tPrice\tOwner_Email");
+                foreach (string log in data)
+                {
+                    string[] temp = log.Split('\t');
+                    if (temp[5].Equals("Y"))//temp 5 reffers to the status 
+                    {
+                         Console.WriteLine(temp[0]+"\t"+ temp[1] + "\t"+ temp[2] + "\t"+ temp[3] + "\t"+ temp[4] + "\t");
+                    }
+                }
+        }
         public static int getLineNumber(int ID)
         {
             int counter = 0;
             string line;
 
             // Read the file and display it line by line.
-            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             while ((line = file.ReadLine()) != null)
             {
                 if (line.Contains(ID.ToString()))
@@ -153,7 +169,7 @@ namespace RentmyPlace
             string line;
 
             // Read the file and display it line by line.
-            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\_Listing.txt");
+            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             while ((line = file.ReadLine()) != null)
             {
                 counter++;

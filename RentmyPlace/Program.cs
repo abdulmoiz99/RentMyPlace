@@ -71,11 +71,10 @@ namespace RentmyPlace
                 {
                     while (true)
                     {
-                        Console.WriteLine("1.Pervious Customer Rentals");
-                        Console.WriteLine("2.List of Rentals Sorted by Customer Name then by Date");
-                        Console.WriteLine("3.Total No of Rental And Average Rental Amount");
-                        Console.WriteLine("4.Revenu By Month");
-                        Console.WriteLine("5.Revenu By Year");
+                        Console.WriteLine("1.Previous Customer Rentals");
+                        Console.WriteLine("2.Historical Customer Rentals");
+                        Console.WriteLine("3.Revenue By Month");
+                        Console.WriteLine("4.Revenue By Year");
                         Console.WriteLine("0.Back To Main Menu");
 
                         int _reportChoice = int.Parse(Console.ReadLine());
@@ -86,10 +85,8 @@ namespace RentmyPlace
                         else if (_reportChoice == 2)
                             Report.historicalCustomerRentals();
                         else if (_reportChoice == 3)
-                            Report.historicalCustomerRentals();
-                        else if (_reportChoice == 4)
                             Report.getRevenueByMonth();
-                        else if (_reportChoice == 5)
+                        else if (_reportChoice == 4)
                             Report.getRevenueByYear();
                     }
                 }

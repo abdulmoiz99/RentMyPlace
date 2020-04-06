@@ -65,6 +65,7 @@ namespace RentmyPlace
         }
         /// <summary>
         /// A list of all rentals sorted by customer then by date
+        /// For each customer provide total number of rentals and average rental amount.
         /// </summary>
         public static void historicalCustomerRentals()
         {

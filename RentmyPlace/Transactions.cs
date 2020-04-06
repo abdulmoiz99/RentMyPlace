@@ -9,7 +9,9 @@ namespace RentmyPlace
 {
     static class Transactions
     {
-        
+        /// <summary>
+        /// Add a new transaction into the transactions text file
+        /// </summary>
         public static void AddTrasnaction()
         {
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt"))
@@ -73,6 +75,9 @@ namespace RentmyPlace
                 else Console.WriteLine("Listing Is Already Rented");
             }
         }
+        /// <summary>
+        /// This function is call whenever user intiate a checkout
+        /// </summary>
         public static void CheckOut()
         {
             Console.WriteLine("Check-Out");
@@ -116,21 +121,10 @@ namespace RentmyPlace
             }
             Console.WriteLine("Listing ID not found.");
         }
-        public static bool checkID(int ID)
-        {
-            bool status = false;
-
-            string[] data = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt");
-            foreach (string log in data)
-            {
-                string[] temp = log.Split('\t');
-                if (temp[0].Equals(ID.ToString()))//temp 5 reffers to the status 
-                {
-                    status = true;
-                }
-            }
-            return status;
-        }
+       /// <summary>
+       /// Genenerate a new and unique ID for trasaction
+       /// </summary>
+       /// <returns></returns>
         public static int generateID()
         {
 

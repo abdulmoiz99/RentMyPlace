@@ -50,7 +50,7 @@ namespace RentmyPlace
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
                 try
                 {
-                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "N"); // N refers to the listing status 
+                    sw.Write(_listingID + "\t" + _listingAddress + "\t" + _listingEndDate + "\t" + _listingLastPrice + "\t" + _listingOwnerEmail + "\t" + "Y"); // Y refers to the listing status 
                     sw.WriteLine();
                     Console.WriteLine("Listing Added Successfully\n");
                 }

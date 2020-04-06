@@ -10,25 +10,30 @@ using System.Threading.Tasks;
 
 namespace RentmyPlace
 {
+    /// <summary>
+    /// Add a new lisiting into Listing.txt
+    /// </summary>
     static class Listing
     {
         public static void AddListing()
         {
+            //check if the listing text file is present or not 
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt"))
             {
                 Console.WriteLine("Listing File Not Found");
             }
             else
             {
+                //declaration of variables
                 #region ListingVariables
                 int _listingID = generateID(); ; string _listingAddress, _listingEndDate, _listingOwnerEmail; float _listingLastPrice;
                 #endregion
                 Console.WriteLine("\nAdd Listing");
-                //We should change the listing ID to auto-increment
                 Console.Write("Enter Address:");
                 _listingAddress = Console.ReadLine();
                 Console.Write("Enter End Date:");
                 _listingEndDate = Console.ReadLine();
+                //check the float variable and re takes inputs untill its correcta
                 while (true)
                 {
                     Console.Write("Enter Last Price: ");
@@ -41,6 +46,7 @@ namespace RentmyPlace
                 }
                 Console.Write("Enter Owner's Email:");
                 _listingOwnerEmail = Console.ReadLine();
+                //writes into text file
                 StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
                 try
                 {
@@ -54,11 +60,15 @@ namespace RentmyPlace
                 }
                 finally
                 {
+                    //closes the file
                     sw.Flush();
                     sw.Close();
                 }
             }
         }
+        /// <summary>
+        /// this function is used to update the listing in the text file 
+        /// </summary>
         public static void ModifyListing()
         {
             int _listingID;
@@ -66,8 +76,8 @@ namespace RentmyPlace
             while (true)
             {
                 Console.WriteLine("Enter Listing ID");
-                 _listingID = int.Parse(Console.ReadLine());
-                if (checkID(_listingID) ==true)
+                _listingID = int.Parse(Console.ReadLine());
+                if (checkID(_listingID) == true)
                 {
                     break;
                 }
@@ -132,7 +142,9 @@ namespace RentmyPlace
             Console.WriteLine("Listing ID not found.");
 
         }
-
+        /// <summary>
+        /// this function is used to delete the listing in the text file
+        /// </summary>
         public static void DeleteListing()
         {
             int _listingID;
@@ -176,7 +188,7 @@ namespace RentmyPlace
             }
             else Console.WriteLine("Cannot Delete the current listing is on Rent");
         }
-       
+
         /// <summary>
         /// Only display thoes lising where status is Y(Yes)
         /// </summary>
@@ -195,7 +207,12 @@ namespace RentmyPlace
             }
 
         }
-        public static void UpdateStatus(int ID,string status)
+        /// <summary>
+        /// updates the status of the condo whem a new transaction is made or checkout is done
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="status"></param>
+        public static void UpdateStatus(int ID, string status)
         {
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
             for (int i = 0; i < lines.Length; i++)
@@ -225,6 +242,11 @@ namespace RentmyPlace
             }
 
         }
+        /// <summary>
+        /// checks whether the condo is avaiable or not 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public static bool checkAvaiableity(int ID)
         {
             bool status = false;
@@ -243,6 +265,11 @@ namespace RentmyPlace
             }
             return status;
         }
+        /// <summary>
+        /// checks wheher the ID provided by the user is correct or not 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public static bool checkID(int ID)
         {
             bool status = false;
@@ -258,26 +285,10 @@ namespace RentmyPlace
             }
             return status;
         }
-        public static int getLineNumber(int ID)
-        {
-            int counter = 0;
-            string line;
-
-            // Read the file and display it line by line.
-            StreamReader file = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\Listing.txt");
-            while ((line = file.ReadLine()) != null)
-            {
-                if (line.Contains(ID.ToString()))
-                {
-                    // Console.WriteLine(counter.ToString() + ": " + line);
-                    break;
-                }
-                counter++;
-            }
-            file.Close();
-            return counter;
-        }
-
+        /// <summary>
+        /// whenever a new listing is created a this function creates a unique ID for that listing
+        /// </summary>
+        /// <returns></returns>
         public static int generateID()
         {
 

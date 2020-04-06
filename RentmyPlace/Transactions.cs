@@ -9,6 +9,7 @@ namespace RentmyPlace
 {
     static class Transactions
     {
+        
         public static void AddTrasnaction()
         {
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\transactions.txt"))

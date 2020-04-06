@@ -9,6 +9,9 @@ namespace RentmyPlace
 {
     static class Report
     {
+        /// <summary>
+        /// Displays the record of the pervious rentals of the customer when the user enters a e-mail
+        /// </summary>
         public static void individualCustomerRentals()
         {
             string text = ""; 
@@ -60,6 +63,9 @@ namespace RentmyPlace
                 }
             }
         }
+        /// <summary>
+        /// A list of all rentals sorted by customer then by date
+        /// </summary>
         public static void historicalCustomerRentals()
         {
             string text = "";
@@ -165,6 +171,11 @@ namespace RentmyPlace
                 }
             }
         }
+        /// <summary>
+        /// gets the total numeber of lines in the transaction text file
+        /// this function help in initializing the array 
+        /// </summary>
+        /// <returns></returns>
         public static int getTotalLines()
         {
             int counter = 0;
@@ -195,6 +206,9 @@ namespace RentmyPlace
             }
             return -1;
         }
+        /// <summary>
+        /// Take a input of 2 digit and dispay the total revenu genertated in that month
+        /// </summary>
         public static void getRevenueByMonth()
         {
             string text = "";
@@ -250,6 +264,9 @@ namespace RentmyPlace
                 }
             }
         }
+        /// <summary>
+        /// Take a input of 4 digit and dispay the total revenu genertated in that year
+        /// </summary>
         public static void getRevenueByYear()
         {
             string text = "";
